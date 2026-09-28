@@ -1,0 +1,13 @@
+#modules
+.env
+.DS_Store
+**/.DS_Store
+.idea/
+__pycache__/
+**/__pycache__/
+*.pyc
+.venv/
+node_modules/
+dist/
+alembic/commands for alembic
+frontend/src/services/stuff related to js

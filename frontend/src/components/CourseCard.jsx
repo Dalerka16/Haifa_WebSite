@@ -1,16 +1,50 @@
-// src/components/CourseCard.jsx
+import "../css/CourseCard.css"
 
-import ReviewForm from './ReviewForm.jsx';
+function CourseCard({course, colorHex, onDragStart, onDragEnter, onDragEnd, onMouseEnter, onMouseLeave}) {
+    function onInfoClick() {
+        alert("Course info clicked!");
+    }
 
-// This function receives 'props' (arguments) and returns HTML-like syntax
-export default function CourseCard({ id, name, description }) {
-  return (
-    <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200 hover:shadow-lg transition-shadow">
-      <h2 className="text-xl font-bold text-gray-800 mb-2">{name}</h2>
-      <p className="text-gray-600 mb-4">{description}</p>
+    return (
+        <div
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            className="course-card"
+            style={{backgroundColor: colorHex}}
+            dir="rtl"
+            draggable
+            onDragStart={onDragStart}
+            onDragEnter={onDragEnter}
+            onDragEnd={onDragEnd}
+            onDragOver={(e) => e.preventDefault()} // Обязательно, чтобы разрешить "сброс" элемента
+        >
+            {/* Right side: Drag Handle */}
+            <div className="drag-handle">
+                <div className="dot-row">
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                </div>
+                <div className="dot-row">
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                </div>
+                <div className="dot-row">
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                </div>
+            </div>
 
-      {/* הזרקת קומפוננטת הטופס, והעברת ה-ID של הקורס אליה כפרמטר */}
-      <ReviewForm courseId={id} />
-    </div>
-  );
+            {/* Middle: Course Title and ID */}
+            <div className="course-info">
+                <p>{course.number} - {course.name}</p>
+            </div>
+
+            {/* Left side: Info Button */}
+            <button className="info-btn" onClick={onInfoClick}>
+                i
+            </button>
+        </div>
+    );
 }
+
+export default CourseCard

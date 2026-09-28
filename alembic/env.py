@@ -1,13 +1,13 @@
 from logging.config import fileConfig
 
-from dns.name import BadEscape
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
+import models.course,models.review,models.session
+from db.database import Base
 
-from src.models import Base
-from src.models import Course,Review
+from core.config import Settings, settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -18,10 +18,8 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# add your model's MetaData object here
-# for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
+config.set_main_option("sqlalchemy.url",settings.database_url)
+
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
