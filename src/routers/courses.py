@@ -49,7 +49,7 @@ def add_course(course:CourseSchema , db_pipe : Session = Depends(get_db)):
 
 
 
-@router.post("/courses/{course_number}/sessions",response_model=SessionSchema)
+@router.post("/courses/{course_number}/sessions")
 def add_session(course_number:int,session:SessionSchema,db_pipe:Session = Depends(get_db)):
     course = _check_if_course_exists(course_number,db_pipe)
     lst_sessions = course.sessions
@@ -63,4 +63,9 @@ def add_session(course_number:int,session:SessionSchema,db_pipe:Session = Depend
     db_pipe.commit()
     db_pipe.refresh(session_of_type_model)
 
-    return session_of_type_model
+
+"""@router.get("/courses/{course_number}/sessions",response_model=list[SessionSchema])
+def get_sessions_for_course(course_number:int,db_pipe:Session = Depends(get_db)):
+    course = _check_if_course_exists(course_number, db_pipe)
+    lst_sessions = course.sessions
+    return lst_sessions"""
