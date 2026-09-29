@@ -35,6 +35,7 @@ function Home() {
     const [selectedCourses, setSelectedCourses] = useState([]);
 
     const [hoveredCourseId, setHoveredCourseId] = useState(null);
+    const [lockedSessionIds, setLockedSessionIds] = useState([]);
 
     const coursePalette = ["#2563EB", /* 1. Royal Blue */
         "#059669", /* 2. Emerald Green */
@@ -89,6 +90,32 @@ function Home() {
         }
     }
 
+    // 4. Handle clicking on the sidebar course card to toggle all its sessions
+    const handleSidebarCourseClick = (courseNumber) => {
+        const course = coursesWithColors.find(c => c.number === courseNumber);
+        if (!course || !course.sessions) return;
+
+        // Gather all unique session IDs for this course
+        const sessionIds = course.sessions.map(s => `${course.number}-${s.type}-${s.group}`);
+
+        // Check if ALL sessions are currently locked
+        const allLocked = sessionIds.every(id => lockedSessionIds.includes(id));
+
+        if (allLocked) {
+            // If all are locked, unlock them all
+            setLockedSessionIds(prev => prev.filter(id => !sessionIds.includes(id)));
+        } else {
+            // Otherwise, lock them all
+            setLockedSessionIds(prev => {
+                const newIds = [...prev];
+                sessionIds.forEach(id => {
+                    if (!newIds.includes(id)) newIds.push(id);
+                });
+                return newIds;
+            });
+        }
+    };
+
 
     return (<div>
         <Logo/>
@@ -109,8 +136,16 @@ function Home() {
                 <div className="calendar-area">
                     {/* Обертка для таблицы, чтобы она занимала оставшееся место */}
                     <div style={{flexGrow: 1, minHeight: 0}}>
-                        <Table courses={coursesWithColors} hoveredCourseId={hoveredCourseId}/>
-                    </div>
+                        <Table
+                            courses={coursesWithColors}
+                            hoveredCourseId={hoveredCourseId}
+                            lockedSessionIds={lockedSessionIds}
+                            onSessionClick={(sessionId) => {
+                                setLockedSessionIds(prev =>
+                                    prev.includes(sessionId) ? prev.filter(id => id !== sessionId) : [...prev, sessionId]
+                                )
+                            }}
+                        /></div>
 
                     {/* Подвал для ссылки на GitHub */}
                     <div className="repo-footer">
@@ -131,16 +166,16 @@ function Home() {
                         ) : (
                             coursesWithColors.map((course, index) => (
                                 <CourseCard
-                                    key={course.number} // <-- Changed from course.id to course.number
+                                    key={course.number}
                                     course={course}
                                     colorHex={course.colorHex}
                                     onDragStart={() => handleDragStart(index)}
                                     onDragEnter={() => handleDragEnter(index)}
                                     onDragEnd={handleDragEnd}
-                                    onMouseEnter={() => setHoveredCourseId(course.number)} // <-- Change here too
+                                    onMouseEnter={() => setHoveredCourseId(course.number)}
                                     onMouseLeave={() => setHoveredCourseId(null)}
-                                />
-                            ))
+                                    onClick={() => handleSidebarCourseClick(course.number)} // <-- Добавлено
+                                />))
                         )}
                     </div>
                 </div>

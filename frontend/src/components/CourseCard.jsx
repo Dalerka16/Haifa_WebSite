@@ -1,12 +1,14 @@
 import "../css/CourseCard.css"
 
-function CourseCard({course, colorHex, onDragStart, onDragEnter, onDragEnd, onMouseEnter, onMouseLeave}) {
-    function onInfoClick() {
+function CourseCard({course, colorHex, onDragStart, onDragEnter, onDragEnd, onMouseEnter, onMouseLeave, onClick}) {
+    function onInfoClick(e) {
+        e.stopPropagation(); // Предотвращает срабатывание onClick самой карточки при нажатии на кнопку "i"
         alert("Course info clicked!");
     }
 
     return (
         <div
+            onClick={onClick}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             className="course-card"
@@ -16,7 +18,7 @@ function CourseCard({course, colorHex, onDragStart, onDragEnter, onDragEnd, onMo
             onDragStart={onDragStart}
             onDragEnter={onDragEnter}
             onDragEnd={onDragEnd}
-            onDragOver={(e) => e.preventDefault()} // Обязательно, чтобы разрешить "сброс" элемента
+            onDragOver={(e) => e.preventDefault()}
         >
             {/* Right side: Drag Handle */}
             <div className="drag-handle">

@@ -1,6 +1,13 @@
+import React, {useState} from 'react'; // <-- Нужно для локального hover
 import '../css/Table.css';
 
-function Table({courses = [], hoveredCourseId = null}) {
+function Table({
+                   courses = [],
+                   hoveredCourseId = null,
+                   lockedSessionIds = [],
+                   onSessionClick
+               }) {
+    const [hoveredSessionId, setHoveredSessionId] = useState(null); // Локальное состояние блока
     const days = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי'];
 
     // 1. Set default Grid boundaries (08:30 to 18:30)
@@ -38,7 +45,7 @@ function Table({courses = [], hoveredCourseId = null}) {
             </div>
 
             {/* Time Rows and Overlay Container */}
-            <div className="table-body" style={{ position: 'relative' }}>
+            <div className="table-body" style={{position: 'relative'}}>
 
                 {/* 1. Background Grid */}
                 {times.map((time, rowIndex) => (
@@ -54,42 +61,57 @@ function Table({courses = [], hoveredCourseId = null}) {
 
                 {/* 2. INVISIBLE OVERLAY WITH COLORED BLOCKS */}
                 <div className="events-overlay">
-                  <div className="event-time-spacer"></div>
+                    <div className="event-time-spacer"></div>
 
-                  {days.map((_, dayIndex) => (
-                    <div key={dayIndex} className="event-day-column">
-                      {courses.map(course =>
-                        (course.sessions || [])
-                          .filter(session => session.day === dayIndex)
-                          .map((session, i) => {
-                            const isHovered = hoveredCourseId === course.number;
+                    {days.map((_, dayIndex) => (
+                        <div key={dayIndex} className="event-day-column">
+                            {courses.map(course =>
+                                (course.sessions || [])
+                                    .filter(session => session.day === dayIndex)
+                                    .map((session, i) => {
+                                        const sessionUniqueId = `${course.number}-${session.type}-${session.group}`;
 
-                            // 4. Update the math to use the dynamic grid boundaries
-                            const topPercent = ((session.start - startGrid) / totalHours) * 100;
-                            const heightPercent = ((session.end - session.start) / totalHours) * 100;
+                                        // Подсветка от боковой панели ИЛИ локального наведения мыши внутри календаря
+                                        const isSidebarHovered = hoveredCourseId === course.number;
+                                        const isThisBlockHovered = hoveredSessionId === sessionUniqueId;
+                                        const isLocked = lockedSessionIds.includes(sessionUniqueId);
 
-                            return (
-                              <div
-                                key={`${course.number}-${i}`}
-                                className={`event-block ${isHovered ? 'hovered' : ''}`}
-                                style={{
-                                  top: `${topPercent}%`,
-                                  height: `${heightPercent}%`,
-                                  borderColor: course.colorHex,
-                                  backgroundColor: isHovered ? course.colorHex : 'white',
-                                  color: isHovered ? 'white' : course.colorHex,
-                                  zIndex: isHovered ? 10 : 1
-                                }}
-                              >
-                                 <div className="event-title">{session.type} {session.group}</div>
-                                 <div className="event-course">{course.name}</div>
-                                 <div className="event-lecturer">{session.lecturer}</div>
-                              </div>
-                            )
-                        })
-                      )}
-                    </div>
-                  ))}
+                                        const isActive = isLocked || isSidebarHovered || isThisBlockHovered;
+
+                                        const topPercent = ((session.start - startGrid) / totalHours) * 100;
+                                        const heightPercent = ((session.end - session.start) / totalHours) * 100;
+
+                                        return (
+                                            <div
+                                                key={sessionUniqueId}
+                                                className={`event-block ${isActive ? 'hovered' : ''}`}
+
+                                                // События мыши управляют ТОЛЬКО этим конкретным блоком
+                                                onMouseEnter={() => setHoveredSessionId(sessionUniqueId)}
+                                                onMouseLeave={() => setHoveredSessionId(null)}
+
+                                                onClick={() => {
+                                                    onSessionClick && onSessionClick(sessionUniqueId);
+                                                    setHoveredSessionId(null); // МГНОВЕННО снимает подсветку при клике
+                                                }}
+
+                                                style={{
+                                                    top: `${topPercent}%`,
+                                                    height: `${heightPercent}%`,
+                                                    borderColor: course.colorHex,
+                                                    backgroundColor: isActive ? course.colorHex : 'white',
+                                                    color: isActive ? 'white' : course.colorHex,
+                                                    zIndex: isActive ? 10 : 1
+                                                }}
+                                            >
+                                                <div className="event-title">{session.type} {session.group}</div>
+                                                <div className="event-course">{course.name}</div>
+                                                <div className="event-lecturer">{session.lecturer}</div>
+                                            </div>
+                                        )
+                                    }))}
+                        </div>
+                    ))}
                 </div>
 
             </div>
