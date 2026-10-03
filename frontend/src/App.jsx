@@ -1,10 +1,10 @@
-import './css/App.css'
 import Home from "./pages/Home.jsx";
+import "./css/App.css";
 
 function App() {
-  return (
-    <Home />
-  );
+    return (
+        <Home/>
+    );
 }
 
 export default App;

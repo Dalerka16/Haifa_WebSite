@@ -1,0 +1,92 @@
+.modal-overlay {
+    position: fixed; /* Anchors to the entire screen, not just the grid */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Fills the whole screen */
+    height: 100vh; /* Fills the whole screen */
+    background-color: rgba(0, 0, 0, 0.4); /* Dims the sidebar and grid together */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 8px;
+
+    /* Keeping your exact requested dimensions */
+    width: 60vw;
+    max-width: 1000px;
+    height: 88vh;
+    max-height: 1200px;
+    margin-left: 100px;
+
+    overflow-y: auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+
+.modal-header {
+    color: white;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.75rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.modal-body {
+    padding: 30px;
+    color: #334155;
+    flex-grow: 1;
+}
+
+.modal-body p {
+    margin-bottom: 8px;
+}
+
+.modal-body h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 5px;
+}
+
+.modal-description {
+    background-color: #f8fafc;
+    padding: 15px;
+    border-radius: 6px;
+    margin: 15px 0;
+    border: 1px solid #e2e8f0;
+    font-size: 0.95rem;
+}
+
+.modal-sessions-list {
+    list-style-type: disc;
+    padding-right: 20px; /* RTL padding */
+}
+
+.modal-sessions-list li {
+    margin-bottom: 5px;
+}

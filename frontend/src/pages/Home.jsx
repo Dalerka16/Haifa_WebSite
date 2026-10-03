@@ -1,10 +1,9 @@
-import Semestr from '../components/Semestr.jsx';
-import Search from '../components/Search';
-import CourseCard from '../components/CourseCard';
-import Logo from "../components/Logo.jsx";
+import Navbar from '../components/Navbar.jsx';
+import Sidebar from "../components/Sidebar.jsx";
 import Table from "../components/Table.jsx";
 import React, {useState, useRef, useEffect} from 'react';
 import {bringCourses} from "../services/api.js";
+import CourseModal from '../components/CourseModal.jsx';
 
 import "../css/Home.css"
 import RepoFooter from "../components/RepoFooter.jsx";
@@ -35,6 +34,7 @@ function Home() {
     const [selectedCourses, setSelectedCourses] = useState([]);
 
     const [hoveredCourseId, setHoveredCourseId] = useState(null);
+    const [infoCourse, setInfoCourse] = useState(null); // Tracks which course to show in the modal
     const [lockedSessionIds, setLockedSessionIds] = useState([]);
 
     const coursePalette = ["#2563EB", /* 1. Royal Blue */
@@ -117,23 +117,17 @@ function Home() {
     };
 
 
-    return (<div>
-        <Logo/>
-        <div className="app-container" dir="rtl">
-            {/* Top Navigation Bar */}
-            <header
-                className="flex items-center justify-center gap-8 px-4 py-3 bg-white border-b border-gray-200 shadow-sm">
+    return (
+        <div className="app-container" dir="rtl" style={{margin: 0, padding: 0}}>
 
-                <div className="flex items-center gap-4 text-sm">
-                    <Semestr/>
-                </div>
-            </header>
+            <Navbar />
 
             {/* Main Layout: Grid on the right (RTL), Sidebar on the left */}
             <main className="home-main">
 
                 {/* Update the Table to receive the courses and the hover state */}
-                <div className="calendar-area">
+                <div className="calendar-area" style={{position: 'relative'}}>
+
                     {/* Обертка для таблицы, чтобы она занимала оставшееся место */}
                     <div style={{flexGrow: 1, minHeight: 0}}>
                         <Table
@@ -145,43 +139,40 @@ function Home() {
                                     prev.includes(sessionId) ? prev.filter(id => id !== sessionId) : [...prev, sessionId]
                                 )
                             }}
-                        /></div>
+                        />
+                    </div>
 
                     {/* Подвал для ссылки на GitHub */}
                     <div className="repo-footer">
                         <RepoFooter/>
                     </div>
+
+                    {/* Render the modal strictly inside the calendar area */}
+                    <CourseModal
+                        course={infoCourse}
+                        onClose={() => setInfoCourse(null)}
+                    />
                 </div>
 
-                {/* Sidebar Area (Takes up a fixed width column) */}
-                <div className="sidebar-area">
-                    <Search
-                        courses={courseDatabase}
-                        onSelectCourse={handleSelectCourse}
-                    />
-                    {/* List of Selected Courses */}
-                    <div className="flex flex-col gap-1">
-                        {selectedCourses.length === 0 ? (
-                            <p className="text-sm text-gray-400 text-center mt-4">לא נבחרו מקצועות</p>
-                        ) : (
-                            coursesWithColors.map((course, index) => (
-                                <CourseCard
-                                    key={course.number}
-                                    course={course}
-                                    colorHex={course.colorHex}
-                                    onDragStart={() => handleDragStart(index)}
-                                    onDragEnter={() => handleDragEnter(index)}
-                                    onDragEnd={handleDragEnd}
-                                    onMouseEnter={() => setHoveredCourseId(course.number)}
-                                    onMouseLeave={() => setHoveredCourseId(null)}
-                                    onClick={() => handleSidebarCourseClick(course.number)} // <-- Добавлено
-                                />))
-                        )}
-                    </div>
-                </div>
+                <Sidebar
+                    courseDatabase={courseDatabase}
+                    handleSelectCourse={handleSelectCourse}
+                    selectedCourses={selectedCourses}
+                    coursesWithColors={coursesWithColors}
+                    handleDragStart={handleDragStart}
+                    handleDragEnter={handleDragEnter}
+                    handleDragEnd={handleDragEnd}
+                    setHoveredCourseId={setHoveredCourseId}
+                    handleSidebarCourseClick={handleSidebarCourseClick}
+                    setInfoCourse={setInfoCourse}
+                />
+
+                
             </main>
+
+
         </div>
-    </div>);
+    );
 }
 
 export default Home;

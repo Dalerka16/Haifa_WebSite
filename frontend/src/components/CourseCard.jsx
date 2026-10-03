@@ -1,9 +1,20 @@
 import "../css/CourseCard.css"
 
-function CourseCard({course, colorHex, onDragStart, onDragEnter, onDragEnd, onMouseEnter, onMouseLeave, onClick}) {
-    function onInfoClick(e) {
-        e.stopPropagation(); // Предотвращает срабатывание onClick самой карточки при нажатии на кнопку "i"
-        alert("Course info clicked!");
+function CourseCard({
+                        course,
+                        colorHex,
+                        onDragStart,
+                        onDragEnter,
+                        onDragEnd,
+                        onMouseEnter,
+                        onMouseLeave,
+                        onClick,
+                        onInfoClick
+                    }) {
+
+    function handleInfoBtnClick(e) {
+        e.stopPropagation(); // Prevents the main card onClick from firing
+        onInfoClick(course); // Sends the specific course data back to Home.jsx
     }
 
     return (
@@ -42,7 +53,8 @@ function CourseCard({course, colorHex, onDragStart, onDragEnter, onDragEnd, onMo
             </div>
 
             {/* Left side: Info Button */}
-            <button className="info-btn" onClick={onInfoClick}>
+            {/* Left side: Info Button */}
+            <button className="info-btn" onClick={handleInfoBtnClick}>
                 i
             </button>
         </div>
