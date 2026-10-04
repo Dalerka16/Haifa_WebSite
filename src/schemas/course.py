@@ -11,8 +11,3 @@ class Course(BaseModel):
     model_config = ConfigDict(from_attributes=True)  # <---- Allows Pydantic to read fields from SQLAlchemy objects
 
 
-    
-
-     
-
-

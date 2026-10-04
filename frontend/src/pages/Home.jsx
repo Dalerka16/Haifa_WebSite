@@ -6,7 +6,7 @@ import {bringCourses} from "../services/api.js";
 import CourseModal from '../components/CourseModal.jsx';
 
 import "../css/Home.css"
-import RepoFooter from "../components/RepoFooter.jsx";
+
 
 function Home() {
     const [courseDatabase, setCourseDatabase] = useState([]);
@@ -141,11 +141,7 @@ function Home() {
                             }}
                         />
                     </div>
-
-                    {/* Подвал для ссылки на GitHub */}
-                    <div className="repo-footer">
-                        <RepoFooter/>
-                    </div>
+                    
 
                     {/* Render the modal strictly inside the calendar area */}
                     <CourseModal
@@ -167,7 +163,7 @@ function Home() {
                     setInfoCourse={setInfoCourse}
                 />
 
-                
+
             </main>
 
 
