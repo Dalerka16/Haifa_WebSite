@@ -3,7 +3,7 @@ from fastapi import HTTPException,APIRouter,status
 from fastapi.params import Depends
 from db.database import get_db
 from models.course import Course as CourseModel
-from schemas.course import Course as CourseSchema
+from schemas.course import CourseCreate,CourseResponse
 from schemas.session import Session as SessionSchema
 from models.session import Session as SessionModel
 
@@ -17,13 +17,13 @@ def _check_if_course_exists(course_number : int , db_pipe : Session):
         return temp
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Course doesn't exist")
 
-@router.get("/courses",response_model=list[CourseSchema])
+@router.get("/courses",response_model=list[CourseResponse])
 def get_courses(db_pipe : Session = Depends(get_db)):
     query = db_pipe.query(CourseModel)
     all_courses = query.all()
     return all_courses
 
-@router.get("/courses/{course_number}", response_model=CourseSchema)
+@router.get("/courses/{course_number}", response_model=CourseResponse)
 def get_course(course_number : int, db_pipe : Session = Depends(get_db)):
     try:
         cand = _check_if_course_exists(course_number, db_pipe)
@@ -32,7 +32,7 @@ def get_course(course_number : int, db_pipe : Session = Depends(get_db)):
         raise err
 
 @router.post("/courses")
-def add_course(course:CourseSchema , db_pipe : Session = Depends(get_db)):
+def add_course(course:CourseCreate , db_pipe : Session = Depends(get_db)):
     try:
         if _check_if_course_exists(course.number,db_pipe):
             raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail='Course with this number already exists!')
@@ -63,9 +63,3 @@ def add_session(course_number:int,session:SessionSchema,db_pipe:Session = Depend
     db_pipe.commit()
     db_pipe.refresh(session_of_type_model)
 
-
-"""@router.get("/courses/{course_number}/sessions",response_model=list[SessionSchema])
-def get_sessions_for_course(course_number:int,db_pipe:Session = Depends(get_db)):
-    course = _check_if_course_exists(course_number, db_pipe)
-    lst_sessions = course.sessions
-    return lst_sessions"""

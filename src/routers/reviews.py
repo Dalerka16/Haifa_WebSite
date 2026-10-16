@@ -4,12 +4,12 @@ from db.database import get_db
 from .courses import _check_if_course_exists
 from fastapi import HTTPException,APIRouter
 from models.review import Review as ReviewModel
-from schemas.review import Review as ReviewSchema
+from schemas.review import ReviewResponse,ReviewCreate
 
 router = APIRouter(tags=['reviews'])
 
 
-@router.get("/courses/{course_number}/reviews", response_model=list[ReviewSchema])
+@router.get("/courses/{course_number}/reviews", response_model=list[ReviewResponse])
 def get_course_reviews(course_number: int, db_pipe : Session = Depends(get_db)):
     try:
         _check_if_course_exists(course_number, db_pipe)
@@ -19,7 +19,7 @@ def get_course_reviews(course_number: int, db_pipe : Session = Depends(get_db)):
         raise err
 
 @router.post("/courses/{course_id}/reviews")
-def add_review(course_id: int , review : ReviewSchema , db_pipe : Session = Depends(get_db)):
+def add_review(course_id: int , review : ReviewCreate , db_pipe : Session = Depends(get_db)):
     try:
         _check_if_course_exists(course_id, db_pipe)
         review_of_type_model = ReviewModel(content=review.content,
