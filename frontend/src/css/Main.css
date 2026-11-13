@@ -1,0 +1,9 @@
+.main-container {
+    padding-top:1rem;
+    flex-grow: 1;
+    display: flex;
+    width: 100%;
+    overflow: hidden; /* Prevents overflow from breaking the layout */
+    background-color: #f8fafc;
+    gap: 1rem;
+}

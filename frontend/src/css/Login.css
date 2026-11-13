@@ -1,16 +1,13 @@
-.login-container {
-    display: inline-block;
-}
-
 .login-btn {
+    height: 100%;
+    width:6.375rem;
     display: flex;
+    justify-content:center;
     align-items: center;
-    gap: 8px;
-    padding: 8px 20px;
-    background-color: #2563eb; /* Royal Blue */
+    background-color: #2563eb;
     color: white;
     border: none;
-    border-radius: 9999px; /* Matches the Semester pill shape */
+    border-radius: 9999px;
     font-family: inherit;
     font-size: 0.9rem;
     font-weight: 600;
@@ -20,9 +17,9 @@
 }
 
 .login-btn:hover {
-    background-color: #1d4ed8; /* Darker blue on hover */
+    background-color: #1d4ed8;
 }
 
 .login-btn:active {
-    transform: scale(0.98);
+    transform: scale(1.15);
 }

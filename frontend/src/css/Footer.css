@@ -1,0 +1,26 @@
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:0.5rem;
+    background-color: #f8fafc;
+    border-top: 1px solid #e5e7eb;
+    flex-shrink: 0;
+}
+
+.footer-container a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+    direction: ltr;
+}
+
+.footer-container a:hover {
+    color: #0f172a;
+}

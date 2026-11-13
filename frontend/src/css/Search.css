@@ -1,23 +1,19 @@
-.search-container {
+.search-strip-container {
   position: relative;
   width: 100%;
-}
-
-.search-input-group {
   display: flex;
-  flex-direction: row; /* Выстраивает элементы в один горизонтальный ряд */
+  flex-direction: row;
   height: 38px;
   border: 1px solid #ccc;
-  border-radius: 4px;
   background: white;
   overflow: hidden;
+  border-radius:170px;
 }
 
 .search-input-wrapper {
   flex-grow: 1;
   display: flex;
   align-items: center;
-  position: relative;
   cursor: pointer;
 }
 
@@ -26,25 +22,26 @@
   height: 100%;
   padding: 0 10px 0 30px;
   border: none;
-  outline: none;
+  text-align:center;
   background: transparent;
   font-size: 14px;
 }
 
-.search-arrow {
+.search-icon {
   position: absolute;
   left: 10px;
   color: #666;
   pointer-events: none;
 }
 
-.search-button {
+.config-btn{
+  display:none;
   width: 44px;
   flex-shrink: 0;
-  background-color: #e0e0e0; /* Серая кнопка как на CheeseFork */
+  background-color: #e0e0e0;
   border: none;
-  border-right: 1px solid #ccc; /* Разделительная полоса между кнопкой и текстом */
-  display: flex;
+  border-right: 1px solid #ccc;
+  /*display: flex;*/
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -95,3 +92,4 @@
   text-decoration-style: dotted;
   text-underline-offset: 3px;
 }
+

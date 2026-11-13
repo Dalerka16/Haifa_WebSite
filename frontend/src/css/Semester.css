@@ -1,17 +1,13 @@
-.semestr-container {
-    display: inline-block;
-}
-
-.semestr-btn {
+.semester-btn {
+    height:100%;
+    width:8.875rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 8px 16px 8px 12px;
-    background-color: #f1f5f9; /* Soft, pleasant light gray-blue */
+    justify-content: space-around;
+    background-color: #f1f5f9;
     color: #334155;
     border: 1px solid #e2e8f0;
-    border-radius: 9999px; /* Perfect pill shape */
+    border-radius: 9999px;
     font-family: inherit;
     font-size: 0.9rem;
     font-weight: 600;
@@ -20,31 +16,32 @@
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.semestr-btn:hover {
+.semester-btn:hover {
     background-color: #e2e8f0;
     color: #0f172a;
     border-color: #cbd5e1;
 }
 
-.semestr-content {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+.semester-content span{
 
-.semestr-icon {
+}
+.semester-icon {
     width: 16px;
     height: 16px;
     color: #64748b;
 }
 
-.semestr-arrow {
+.semester-arrow {
     width: 18px;
     height: 18px;
     color: #94a3b8;
     transition: transform 0.2s ease, color 0.2s ease;
 }
 
-.semestr-btn:hover .semestr-arrow {
+.semester-btn:hover .semester-arrow {
     color: #475569;
+}
+
+.semester-btn span{
+
 }

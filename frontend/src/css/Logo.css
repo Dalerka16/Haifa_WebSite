@@ -1,14 +1,15 @@
 .logo-container {
     display: flex;
     align-items: center;
+    width:11.6875rem;
 }
 
 .logo-link {
     display: flex;
     align-items: center;
-    gap: 10px; /* Space between icon and text */
+    gap: 0.625rem;
     text-decoration: none;
-    color: #0f172a; /* Dark sleek slate */
+    color: #0f172a;
     transition: opacity 0.2s ease-in-out;
 }
 
@@ -17,19 +18,19 @@
 }
 
 .logo-icon {
-    width: 26px;
-    height: 26px;
-    color: #2563eb; /* Matches the Royal Blue from your palette */
+    width: 1.625rem;
+    height: 1.625rem;
+    color: #2563eb;
 }
 
 .logo-text {
     font-size: 1.35rem;
     font-weight: 800;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    letter-spacing: -0.5px; /* Pulls the letters slightly tighter for a logo feel */
-    direction: ltr; /* Keeps the English text rendering properly */
+    letter-spacing: -0.5px;
+    direction: ltr;
 }
 
 .logo-highlight {
-    color: #2563eb; /* Accents the second half of the word */
+    color: #2563eb;
 }
